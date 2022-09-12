@@ -11,11 +11,12 @@ fi
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="agnoster"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -34,7 +35,6 @@ ZSH_THEME="agnoster"
 # zstyle ':omz:update' mode disabled  # disable automatic updates
 # zstyle ':omz:update' mode auto      # update automatically without asking
 zstyle ':omz:update' mode reminder  # just remind me to update when it's time
-
 # Uncomment the following line to change how often to auto-update (in days).
 # zstyle ':omz:update' frequency 13
 
@@ -79,31 +79,16 @@ HIST_STAMPS="dd/mm/yyyy"
 # Add wisely, as too many plugins slow down shell startup.
 # plugins=(git fzf zsh-autosuggestions sudo web-search copybuffer)
 ZVM_INIT_MODE=sourcing
-plugins=(git zsh-vi-mode fzf zsh-autosuggestions sudo web-search copybuffer)
+#plugins=(git ssh-agent zsh-vi-mode fzf zsh-autosuggestions sudo web-search copybuffer)
+plugins=(git ssh-agent fzf zsh-autosuggestions sudo web-search copybuffer)
 zvm_after_init_commands+=('[ -f ~/.fzf ] && source ~/.fzf')
+zstyle :omz:plugins:ssh-agent agent-forwarding yes
 # zvm_after_init() {
   # source /usr/share/doc/fzf/examples/key-bindings.zsh
   # source /usr/share/doc/fzf/examples/completion.zsh
 # }
 
 source $ZSH/oh-my-zsh.sh
-
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='nvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -115,6 +100,8 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 
+# TODO this conda stuff is just bad, do something better
+# TODO move all aliases to ZSH_CUSTOM
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/home/dennis/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
@@ -130,27 +117,20 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-#-------------------------------- my stuff
-#
-eval "$(ssh-agent -s)"
-cd ~
+#eval "$(ssh-agent -s)"
+#cd ~
+alias nvim=~/squashfs-root/AppRun
 export EDITOR='nvim'
 
-# source /usr/share/doc/fzf/examples/key-bindings.zsh
-# source /usr/share/doc/fzf/examples/completion.zsh
-
-. "$HOME/.cargo/env"
-
-export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
-export LIBGL_ALWAYS_INDIRECT=1
-source ~/powerlevel10k/powerlevel10k.zsh-theme
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 export COLORTERM=truecolor
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-export PATH="/usr/local/cuda-11.4/bin:$PATH"
-export LD_LIBRARY_PATH="/usr/local/cuda-11.4/lib64:$LD_LIBRARY_PATH"
+alias fixssh='eval $(tmux showenv -s SSH_AUTH_SOCK)'
+alias python=python3
+
+#export PATH="/usr/local/cuda-11.4/bin:$PATH"
+#export LD_LIBRARY_PATH="/usr/local/cuda-11.4/lib64:$LD_LIBRARY_PATH"
+
